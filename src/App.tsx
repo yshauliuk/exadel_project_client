@@ -1,7 +1,8 @@
-function App() {
-  return (
-    <h1>Project client</h1>
-  )
-}
+import React from "react";
+import { Authorization } from "./components";
 
-export default App
+const App: React.FC = () => {
+  return <Authorization />;
+};
+
+export default App;
