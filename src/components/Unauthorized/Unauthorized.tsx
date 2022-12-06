@@ -1,7 +1,11 @@
 import axios from "axios";
-import React, { useState } from "react";
+import { useState } from "react";
 
-export const Authorization: React.FC = () => {
+type props = {
+  setToken: React.Dispatch<React.SetStateAction<String | null>>;
+};
+
+export const Unauthorized: React.FC<props> = ({ setToken }) => {
   const [pushedButton, setPushedButton] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLElement>) => {
@@ -14,12 +18,12 @@ export const Authorization: React.FC = () => {
     pushedButton && pushedButton === "Login"
       ? await axios
           .post("http://localhost:8000/login", dataObject)
-          .then((res) => console.log(res))
-          .catch((err) => console.log(err.message))
+          .then((res) => setToken(res.data))
+          .catch((err) => console.log(err.response.data))
       : await axios
           .post("http://localhost:8000/register", dataObject)
-          .then((res) => console.log(res))
-          .catch((err) => console.log(err.message));
+          .then((res) => setToken(res.data))
+          .catch((err) => console.log(err.response.data));
 
     target.reset();
   };

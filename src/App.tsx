@@ -1,8 +1,10 @@
-import React from "react";
-import { Authorization } from "./components";
+import { useState } from "react";
+import { Unauthorized, Authorized } from "./components";
 
 const App: React.FC = () => {
-  return <Authorization />;
+  const [token, setToken] = useState<String | null>(null);
+
+  return <>{token ? <Authorized /> : <Unauthorized setToken={setToken} />}</>;
 };
 
 export default App;
