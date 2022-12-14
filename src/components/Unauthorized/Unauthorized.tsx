@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 
 type props = {
-  setToken: React.Dispatch<React.SetStateAction<String | null>>;
+  setToken: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
 export const Unauthorized: React.FC<props> = ({ setToken }) => {
