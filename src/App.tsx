@@ -4,7 +4,7 @@ import { TokenContext } from "./contexts/TokenContext";
 
 const App: React.FC = () => {
   const [token, setToken] = useState<string | null>(null);
-
+  
   return (
     <TokenContext.Provider value={token}>
       {token ? <Authorized /> : <Unauthorized setToken={setToken} />}
