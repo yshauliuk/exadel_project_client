@@ -12,7 +12,7 @@ export const Unauthorized: React.FC<props> = ({ setToken }) => {
     e.preventDefault();
 
     const target = e.target as HTMLFormElement;
-    const formData = new FormData(e.target as HTMLFormElement);
+    const formData = new FormData(target as HTMLFormElement);
     const dataObject = Object.fromEntries(formData);
 
     pushedButton && pushedButton === "Login"
