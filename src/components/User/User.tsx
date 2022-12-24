@@ -2,18 +2,25 @@ import axios from "axios";
 import React, { useContext, useState } from "react";
 import { TokenContext } from "../../contexts/TokenContext";
 
+type userObject = {
+  email: string;
+  fullName: string;
+  dateOfCreation: string;
+  birthday: string;
+  photos: [Object];
+};
+
 export const User: React.FC = () => {
-  type userObject = {
-    email: string;
-    fullName: string;
-    dateOfCreation: string;
-    birthday: string;
-    photos: [Object];
-  };
+  const [user, setUser] = useState<userObject | null>(null);
 
   const token = useContext(TokenContext);
 
-  const [user, setUser] = useState<userObject | null>(null);
+  const getUserData = async () => {
+    const user = await axios.get("http://localhost:8000/user/get-data", {
+      headers: { authorization: token },
+    });
+    setUser(user.data);
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
@@ -26,17 +33,12 @@ export const User: React.FC = () => {
       .post("http://localhost:8000/user/update-data", dataObject, {
         headers: {
           authorization: token,
-          // "Content-Type": "multipart/form-data",
+          "Content-Type": "multipart/form-data",
         },
       })
       .then((res) => console.log(res.data));
-  };
 
-  const getUserData = async () => {
-    const user = await axios.get("http://localhost:8000/user/get-data", {
-      headers: { authorization: token },
-    });
-    setUser(user.data);
+    getUserData();
   };
 
   return (
@@ -101,6 +103,22 @@ export const User: React.FC = () => {
           <label htmlFor="photos" style={{ marginTop: "5px" }}>
             Photos
           </label>
+          <div style={{ marginBottom: "5px" }}>
+            {user.photos.map((value: any) => ( //?
+              <a
+                key={value._id}
+                href={`http://localhost:8000/${user.email}/${value.name}`}
+                target="_blank"
+              >
+                <img
+                  src={`http://localhost:8000/${user.email}/${value.name}`}
+                  alt="photo"
+                  height="100"
+                  style={{ padding: "0.2px" }}
+                />
+              </a>
+            ))}
+          </div>
           <input type="file" name="photos" id="photos" multiple />
           <button type="submit" style={{ marginTop: "10px" }}>
             Update
