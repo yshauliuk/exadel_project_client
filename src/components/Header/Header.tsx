@@ -1,7 +1,13 @@
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import { Home, User } from "../index";
+import { useContext } from "react";
+import { TokenContext } from "../../contexts/TokenContext";
+import { userObject } from "../User/User";
+import jwt_decode from "jwt-decode";
 
 export const Header: React.FC = () => {
+  const token = useContext(TokenContext);
+  const decoded: userObject = jwt_decode(token);
   return (
     <BrowserRouter>
       <header
@@ -51,7 +57,7 @@ export const Header: React.FC = () => {
         </nav>
       </header>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home fullName={decoded.fullName} />} />
         <Route path="/user" element={<User />} />
       </Routes>
     </BrowserRouter>

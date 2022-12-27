@@ -2,12 +2,13 @@ import axios from "axios";
 import React, { useContext, useState } from "react";
 import { TokenContext } from "../../contexts/TokenContext";
 
-type userObject = {
+export type userObject = {
   email: string;
   fullName: string;
   dateOfCreation: string;
   birthday: string;
   photos: [Object];
+  isAdmin: boolean;
 };
 
 export const User: React.FC = () => {
@@ -104,20 +105,24 @@ export const User: React.FC = () => {
             Photos
           </label>
           <div style={{ marginBottom: "5px" }}>
-            {user.photos.map((value: any) => ( //?
-              <a
-                key={value._id}
-                href={`http://localhost:8000/${user.email}/${value.name}`}
-                target="_blank"
-              >
-                <img
-                  src={`http://localhost:8000/${user.email}/${value.name}`}
-                  alt="photo"
-                  height="100"
-                  style={{ padding: "0.2px" }}
-                />
-              </a>
-            ))}
+            {user.photos.map(
+              (
+                value: any //?
+              ) => (
+                <a
+                  key={value._id}
+                  href={`http://localhost:8000/${user.email}/${value.name}`}
+                  target="_blank"
+                >
+                  <img
+                    src={`http://localhost:8000/${user.email}/${value.name}`}
+                    alt="photo"
+                    height="100"
+                    style={{ padding: "0.2px" }}
+                  />
+                </a>
+              )
+            )}
           </div>
           <input type="file" name="photos" id="photos" multiple />
           <button type="submit" style={{ marginTop: "10px" }}>
