@@ -71,7 +71,7 @@ export const Header: React.FC = () => {
       <Routes>
         <Route path="/" element={<Home fullName={decoded.fullName} />} />
         <Route path="/user" element={<User />} />
-        <Route path="/events" element={<Events />} />
+        <Route path="/events" element={<Events isAdmin={decoded.isAdmin} />} />
       </Routes>
     </BrowserRouter>
   );
