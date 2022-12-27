@@ -53,20 +53,18 @@ export const Header: React.FC = () => {
                 User
               </Link>
             </li>
-            {decoded.isAdmin ? (
-              <li>
-                <Link
-                  to="/events"
-                  style={{
-                    fontSize: "20px",
-                    textDecoration: "none",
-                    color: "black",
-                  }}
-                >
-                  Events
-                </Link>
-              </li>
-            ) : null}
+            <li>
+              <Link
+                to="/events"
+                style={{
+                  fontSize: "20px",
+                  textDecoration: "none",
+                  color: "black",
+                }}
+              >
+                Events
+              </Link>
+            </li>
           </ul>
         </nav>
       </header>
