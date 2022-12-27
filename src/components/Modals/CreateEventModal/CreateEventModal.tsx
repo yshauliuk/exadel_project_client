@@ -1,8 +1,32 @@
+import axios from "axios";
+import { useState, useContext } from "react";
+import { TokenContext } from "../../../contexts/TokenContext";
+
 type props = {
   closeModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const CreateEventModal: React.FC<props> = ({ closeModal }) => {
+  const [isOnline, setIsOnline] = useState<boolean>(false);
+
+  const token = useContext(TokenContext);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLElement>) => {
+    e.preventDefault();
+    const target = e.target as HTMLFormElement;
+    const formData = new FormData(target as HTMLFormElement);
+    const dataObject = Object.fromEntries(formData);
+
+    await axios
+      .post("http://localhost:8000/event/create-event", dataObject, {
+        headers: { authorization: token },
+      })
+      .then((res) => alert(res.data))
+      .catch((err) => console.log(err.message));
+      
+    closeModal(false);
+  };
+
   return (
     <div
       style={{
@@ -42,6 +66,7 @@ export const CreateEventModal: React.FC<props> = ({ closeModal }) => {
             fontSize: "20px",
             width: "400px",
           }}
+          onSubmit={handleSubmit}
         >
           <label
             htmlFor="name"
@@ -52,7 +77,7 @@ export const CreateEventModal: React.FC<props> = ({ closeModal }) => {
             }}
           >
             Name:
-            <input type="text" name="name" />
+            <input type="text" name="name" required />
           </label>
           <label
             htmlFor="description"
@@ -63,7 +88,7 @@ export const CreateEventModal: React.FC<props> = ({ closeModal }) => {
             }}
           >
             Description:
-            <textarea name="description" rows={2} />
+            <textarea name="description" rows={2} required />
           </label>
           <label
             htmlFor="start_date"
@@ -74,7 +99,7 @@ export const CreateEventModal: React.FC<props> = ({ closeModal }) => {
             }}
           >
             Start date:
-            <input type="date" name="start_date" />
+            <input type="date" name="start_date" required />
           </label>
           <label
             htmlFor="online"
@@ -87,9 +112,21 @@ export const CreateEventModal: React.FC<props> = ({ closeModal }) => {
             Online:
             <div>
               Yes
-              <input type="radio" name="online" value="yes" checked />
+              <input
+                onClick={() => setIsOnline(false)}
+                type="radio"
+                name="online"
+                value="yes"
+                required
+              />
               No
-              <input type="radio" name="online" value="no" />
+              <input
+                onClick={() => setIsOnline(true)}
+                type="radio"
+                name="online"
+                value="no"
+                required
+              />
             </div>
           </label>
           <label
@@ -101,13 +138,11 @@ export const CreateEventModal: React.FC<props> = ({ closeModal }) => {
             }}
           >
             Address
-            <input type="text" name="address" />
+            <input type="text" name="address" required disabled={!isOnline} />
           </label>
           <div style={{ display: "flex", justifyContent: "space-evenly" }}>
             <button type="submit">Create</button>
-            <button type="reset" onClick={() => closeModal(false)}>
-              Cancel
-            </button>
+            <button onClick={() => closeModal(false)}>Cancel</button>
           </div>
         </form>
       </div>
