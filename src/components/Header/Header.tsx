@@ -1,5 +1,5 @@
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
-import { Home, User } from "../index";
+import { Home, User, Events } from "../index";
 import { useContext } from "react";
 import { TokenContext } from "../../contexts/TokenContext";
 import { userObject } from "../User/User";
@@ -35,7 +35,7 @@ export const Header: React.FC = () => {
                 style={{
                   fontSize: "20px",
                   textDecoration: "none",
-                  color: 'black' 
+                  color: "black",
                 }}
               >
                 Home
@@ -47,18 +47,33 @@ export const Header: React.FC = () => {
                 style={{
                   fontSize: "20px",
                   textDecoration: "none",
-                  color: 'black' 
+                  color: "black",
                 }}
               >
                 User
               </Link>
             </li>
+            {decoded.isAdmin ? (
+              <li>
+                <Link
+                  to="/events"
+                  style={{
+                    fontSize: "20px",
+                    textDecoration: "none",
+                    color: "black",
+                  }}
+                >
+                  Events
+                </Link>
+              </li>
+            ) : null}
           </ul>
         </nav>
       </header>
       <Routes>
         <Route path="/" element={<Home fullName={decoded.fullName} />} />
         <Route path="/user" element={<User />} />
+        <Route path="/events" element={<Events />} />
       </Routes>
     </BrowserRouter>
   );
