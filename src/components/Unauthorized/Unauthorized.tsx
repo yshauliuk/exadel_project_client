@@ -19,11 +19,11 @@ export const Unauthorized: React.FC<props> = ({ setToken }) => {
       ? await axios
           .post("http://localhost:8000/login", dataObject)
           .then((res) => setToken(res.data))
-          .catch((err) => console.log(err.response.data))
+          .catch((err) => console.log(err.message))
       : await axios
           .post("http://localhost:8000/register", dataObject)
           .then((res) => setToken(res.data))
-          .catch((err) => console.log(err.response.data));
+          .catch((err) => console.log(err.message));
 
     target.reset();
   };
