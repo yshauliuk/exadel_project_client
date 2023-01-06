@@ -8,6 +8,7 @@ import jwt_decode from "jwt-decode";
 export const Header: React.FC = () => {
   const token = useContext(TokenContext);
   const decoded: userObject = jwt_decode(token);
+
   return (
     <BrowserRouter>
       <header
@@ -71,7 +72,10 @@ export const Header: React.FC = () => {
       <Routes>
         <Route path="/" element={<Home fullName={decoded.fullName} />} />
         <Route path="/user" element={<User />} />
-        <Route path="/events" element={<Events isAdmin={decoded.isAdmin} />} />
+        <Route
+          path="/events"
+          element={<Events isAdmin={decoded.isAdmin} userId={decoded.id} />}
+        />
       </Routes>
     </BrowserRouter>
   );

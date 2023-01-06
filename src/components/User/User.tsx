@@ -3,12 +3,18 @@ import React, { useContext, useState } from "react";
 import { TokenContext } from "../../contexts/TokenContext";
 
 export type userObject = {
+  id: string;
   email: string;
   fullName: string;
   dateOfCreation: string;
   birthday: string;
-  photos: [Object];
+  photos: [photoObject];
   isAdmin: boolean;
+};
+
+type photoObject = {
+  _id: string;
+  name: string;
 };
 
 export const User: React.FC = () => {
@@ -52,7 +58,7 @@ export const User: React.FC = () => {
       }}
     >
       <button onClick={getUserData}>Show personal information</button>
-      {user ? (
+      {user && (
         <form
           action="post"
           onSubmit={handleSubmit}
@@ -105,32 +111,26 @@ export const User: React.FC = () => {
             Photos
           </label>
           <div style={{ marginBottom: "5px" }}>
-            {user.photos.map(
-              (
-                value: any //?
-              ) => (
-                <a
-                  key={value._id}
-                  href={`http://localhost:8000/${user.email}/${value.name}`}
-                  target="_blank"
-                >
-                  <img
-                    src={`http://localhost:8000/${user.email}/${value.name}`}
-                    alt="photo"
-                    height="100"
-                    style={{ padding: "0.2px" }}
-                  />
-                </a>
-              )
-            )}
+            {user.photos.map((value: photoObject) => (
+              <a
+                key={value._id}
+                href={`http://localhost:8000/${user.email}/${value.name}`}
+                target="_blank"
+              >
+                <img
+                  src={`http://localhost:8000/${user.email}/${value.name}`}
+                  alt="photo"
+                  height="100"
+                  style={{ padding: "0.2px" }}
+                />
+              </a>
+            ))}
           </div>
           <input type="file" name="photos" id="photos" multiple />
           <button type="submit" style={{ marginTop: "10px" }}>
             Update
           </button>
         </form>
-      ) : (
-        <></>
       )}
     </div>
   );
